@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxMaster | Roblox Creator & Builder</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --rbx-red: #e02438;
+            --rbx-blue: #00a2ff;
+            --dark-bg: #0b0e14;
+            --card-bg: #131823;
+            --text-color: #ffffff;
+            --text-muted: #8b9bb4;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Навигация */
+        .navbar {
+            background-color: rgba(11, 14, 20, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-color) !important;
+        }
+
+        .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--rbx-red) !important;
+        }
+
+        /* Hero секция */
+        .hero-section {
+            padding: 160px 0 100px;
+            background: radial-gradient(circle at 80% 20%, rgba(224, 36, 56, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(0, 162, 255, 0.1) 0%, transparent 50%);
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 20%, var(--rbx-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Карточки с эффектом стекла */
+        .glass-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(224, 36, 56, 0.4);
+        }
+
+        /* Видео / Плейсхолдеры */
+        .game-thumb-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .game-thumb-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-thumb-wrapper:hover img {
+            transform: scale(1.06);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 60px;
+            height: 60px;
+            background: var(--rbx-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.6rem;
+            opacity: 0.9;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .game-thumb-wrapper:hover .play-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 1;
+        }
+
+        /* Кнопки */
+        .btn-roblox {
+            background-color: var(--rbx-red);
+            color: white;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 12px 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(224, 36, 56, 0.4);
+        }
+
+        .btn-roblox:hover {
+            background-color: #c71b2d;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(224, 36, 56, 0.6);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-color);
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 12px 30px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--text-color);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-color);
+        }
+
+        /* Статистика */
+        .stat-item {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        /* Бейджи */
+        .badge-roblox {
+            background: rgba(0, 162, 255, 0.1);
+            color: var(--rbx-blue);
+            border: 1px solid rgba(0, 162, 255, 0.2);
+        }
+
+        footer {
+            background-color: #07090e;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+            .stat-item:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-controller text-danger fs-3"></i>
+                <span>BloxMaster</span>
+            </a>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-1"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-lg-center gap-3 mt-3 mt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#about">Обо мне</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#videos">Видео & Ролики</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#games">Мои Плейсы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Связь</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="https://youtube.com" target="_blank" class="btn btn-roblox btn-sm px-4">YouTube Канал</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Секция -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="badge badge-roblox px-3 py-2 rounded-pill mb-4 fw-semibold">
+                        <i class="bi bi-star-fill me-1 text-warning"></i> Топ Создатель Контента & Разработчик
+                    </div>
+                    <h1 class="hero-title mb-4">Строю миры, снимаю тренды в <span class="text-gradient">Roblox</span></h1>
+                    <p class="text-muted fs-5 mb-5 lh-lg">Йоу! Я BloxMaster. Снимаю угарные летсплеи, создаю популярные симуляторы и учу строить крутые карты в Roblox Studio.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#videos" class="btn btn-roblox">Смотреть ролики</a>
+                        <a href="https://roblox.com" target="_blank" class="btn btn-outline-custom"><i class="bi bi-controller me-2"></i>Профиль в Roblox</a>
+                    </div>
+                </div>
+                <div class="col-lg-5" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="glass-card p-3 position-relative">
+                        <div class="game-thumb-wrapper">
+                            <!-- Красивая картинка, ассоциирующаяся с играми/графикой -->
+                            <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=1000&auto=format&fit=crop" alt="Roblox Video">
+                            <a href="https://youtube.com" target="_blank" class="play-overlay">
+                                <i class="bi bi-play-fill"></i>
+                            </a>
+                        </div>
+                        <div class="pt-3 px-2">
+                            <span class="badge bg-danger bg-opacity-10 text-danger small fw-bold px-2 py-1 rounded">ХИТ</span>
+                            <h5 class="fw-bold mt-2 mb-0">Как я потратил 1,000,000 Роббаксов за 24 часа!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Блок статистики -->
+            <div class="row glass-card mt-5 py-4 px-3" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <div class="col-md-4 stat-item text-center">
+                    <h2 class="fw-bold text-gradient mb-1">1.8M+</h2>
+                    <p class="text-muted mb-0">Подписчиков на YouTube</p>
+                </div>
+                <div class="col-md-4 stat-item text-center">
+                    <h2 class="fw-bold text-gradient mb-1">15M+</h2>
+                    <p class="text-muted mb-0">Визитов в мои плейсы</p>
+                </div>
+                <div class="col-md-4 stat-item text-center">
+                    <h2 class="fw-bold text-gradient mb-1">500K</h2>
+                    <p class="text-muted mb-0">Участников в Discord-сервере</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Секция видео / роликов -->
+    <section id="videos" class="py-5">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+                <div>
+                    <h6 class="text-danger text-uppercase fw-bold tracking-wider">Контент</h6>
+                    <h2 class="fw-bold display-6">Популярные видео по Роблоксу</h2>
+                </div>
+                <a href="https://youtube.com" target="_blank" class="text-decoration-none text-muted fw-semibold d-none d-md-flex align-items-center gap-1">
+                    Все видео на канале <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="row g-4">
+                <!-- Карточка 1 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card p-3 h-100 d-flex flex-column">
+                        <div class="game-thumb-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop" alt="Roblox Game 1">
+                            <a href="https://youtube.com" target="_blank" class="play-overlay"><i class="bi bi-play-fill"></i></a>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="bi bi-eye me-1"></i> 2.4M просмотров</span>
+                            <span><i class="bi bi-clock me-1"></i> 5 дней назад</span>
+                        </div>
+                        <h5 class="fw-bold mb-3">Выжил 100 дней в самом сложном хардкорном Обби в Roblox</h5>
+                        <a href="https://youtube.com" target="_blank" class="text-danger text-decoration-none fw-semibold mt-auto d-flex align-items-center gap-1">
+                            Смотреть ролик <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card p-3 h-100 d-flex flex-column">
+                        <div class="game-thumb-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=800&auto=format&fit=crop" alt="Roblox Game 2">
+                            <a href="https://youtube.com" target="_blank" class="play-overlay"><i class="bi bi-play-fill"></i></a>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="bi bi-eye me-1"></i> 920K просмотров</span>
+                            <span><i class="bi bi-clock me-1"></i> 2 недели назад</span>
+                        </div>
+                        <h5 class="fw-bold mb-3">Секретные коды в Blox Fruits, которые дают ОП-бусты!</h5>
+                        <a href="https://youtube.com" target="_blank" class="text-danger text-decoration-none fw-semibold mt-auto d-flex align-items-center gap-1">
+                            Смотреть ролик <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="glass-card p-3 h-100 d-flex flex-column">
+                        <div class="game-thumb-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=800&auto=format&fit=crop" alt="Roblox Game 3">
+                            <a href="https://youtube.com" target="_blank" class="play-overlay"><i class="bi bi-play-fill"></i></a>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="bi bi-eye me-1"></i> 1.5M просмотров</span>
+                            <span><i class="bi bi-clock me-1"></i> 1 месяц назад</span>
+                        </div>
+                        <h5 class="fw-bold mb-3">Троллинг новичков в Adopt Me с помощью легендарных питомцев</h5>
+                        <a href="https://youtube.com" target="_blank" class="text-danger text-decoration-none fw-semibold mt-auto d-flex align-items-center gap-1">
+                            Смотреть ролик <i class="bi bi-chevron-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция: Мои игры / Плейсы -->
+    <section id="games" class="py-5 bg-black bg-opacity-25">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h6 class="text-danger text-uppercase fw-bold tracking-wider">Разработка</h6>
+                <h2 class="fw-bold display-6">Мои Плейсы в Roblox Studio</h2>
+                <p class="text-muted">Игры, которые я создал сам вместе с командой скриптеров</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="fs-2 text-danger bg-danger bg-opacity-10 p-3 rounded-4"><i class="bi bi-joystick"></i></div>
+                                <div>
+                                    <h4 class="fw-bold h5 mb-1">Anime Legends Tycoon</h4>
+                                    <span class="badge badge-roblox small">4.8 ⭐ • 8.2M визитов</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">Строй свой город, прокачивай аниме-героев, открывай уникальные мечи и соревнуйся с друзьями в рейтинге сильнейших.</p>
+                        </div>
+                        <a href="https://roblox.com" target="_blank" class="btn btn-outline-custom w-100 mt-3">Играть в Roblox</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="fs-2 text-danger bg-danger bg-opacity-10 p-3 rounded-4"><i class="bi bi-shield-shaded"></i></div>
+                                <div>
+                                    <h4 class="fw-bold h5 mb-1">Super Speed Simulator</h4>
+                                    <span class="badge badge-roblox small">4.7 ⭐ • 6.9M визитов</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">Бегай быстрее молнии, открывай новые миры, собирай питомцев-бустеров и бей мировые рекорды по скорости!</p>
+                        </div>
+                        <a href="https://roblox.com" target="_blank" class="btn btn-outline-custom w-100 mt-3">Играть в Roblox</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция контактов / рекламы -->
+    <section id="contact" class="py-5">
+        <div class="container py-5">
+            <div class="glass-card p-5 position-relative overflow-hidden" data-aos="zoom-in">
+                <div class="row align-items-center gy-4">
+                    <div class="col-lg-7">
+                        <h6 class="text-danger text-uppercase fw-bold tracking-wider">Сотрудничество</h6>
+                        <h2 class="fw-bold display-6 mb-3">Реклама и интеграция в ролики</h2>
+                        <p class="text-muted mb-0">Хочешь прорекламировать свой плейс, UGC-вещи или бренд? Пиши на почту или в Telegram.</p>
+                    </div>
+                    <div class="col-lg-5 text-lg-end">
+                        <a href="mailto:bloxmaster.ads@gmail.com" class="btn btn-roblox btn-lg px-4">
+                            <i class="bi bi-envelope-fill me-2"></i> Связаться со мной
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-controller text-danger fs-4"></i>
+                <span class="fw-bold">BloxMaster © 2026</span>
+            </div>
+            <div class="d-flex gap-4">
+                <a href="https://youtube.com" target="_blank" class="text-muted fs-5 hover-danger"><i class="bi bi-youtube"></i></a>
+                <a href="https://roblox.com" target="_blank" class="text-muted fs-5 hover-danger"><i class="bi bi-controller"></i></a>
+                <a href="#" class="text-muted fs-5 hover-danger"><i class="bi bi-discord"></i></a>
+                <a href="#" class="text-muted fs-5 hover-danger"><i class="bi bi-telegram"></i></a>
+            </div>
+            <p class="text-muted small mb-0">Не является официальным продуктом Roblox.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Инициализация плавной анимации AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+    </script>
+</body>
+</html>
